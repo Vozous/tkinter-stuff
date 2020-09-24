@@ -1,0 +1,98 @@
+import tkinter as tk
+from PIL import Image, ImageTk
+from tkinter.filedialog import askopenfilename
+
+
+
+def open_image():
+	global imgPath
+
+	full_path = askopenfilename(title="Choisir une image")
+	img_name = full_path.split("/")[-1]
+
+	L0.config(text=L0.cget("text").split(":")[0] + ": " + img_name)
+	imgPath = full_path
+
+	img_pil = Image.open(full_path).resize((400,400))
+	img_tk = ImageTk.PhotoImage(img_pil)
+
+	C0.image = img_tk
+
+	img_canvas = C0.create_image(+2,+2, image=C0.image, anchor="nw")
+
+	try:#deleting existing image in <<C1>>(second canvas)
+		if C1.image:del C1.image
+	except AttributeError:
+		pass
+
+
+
+def rotate_image():
+	global C1_rotated, usedPaths, usedPathsCount
+
+	if bool(imgPath):
+		if not (imgPath in usedPaths):
+			usedPaths.append(imgPath)
+			
+		try:
+			if C1.image: pass#trying
+			if len(usedPaths) != usedPathsCount:
+				img_pil = Image.open(imgPath).resize((300,300)).rotate(-45)
+				usedPathsCount+= 1
+			else:
+				img_pil = C1_rotated.rotate(-45)
+
+		except AttributeError:#this code will be executed only onse
+			img_pil = Image.open(imgPath).resize((300,300)).rotate(-45)
+			usedPathsCount+= 1
+			
+		img_tk = ImageTk.PhotoImage(img_pil)
+		
+		C1.image = img_tk
+		C1_rotated = img_pil
+
+		img_canvas = C1.create_image(+2,+2, image=C1.image, anchor="nw")
+		
+
+	else: 
+		print(f"--> Warning !\n 	Any image found with - {imgPath} - path-name.")
+
+
+
+
+#window setup
+win = tk.Tk()
+win.title("project0")
+sw,sh = [800,600]
+cx,cy = sw//2, sh//2
+win.geometry("{}x{}".format(sw,sh))
+
+
+
+#widget setup
+imgPath, usedPaths, usedPathsCount = "", [], 0
+B_open = tk.Button(win, text="Ouvrir...", command=open_image)
+B_rot = tk.Button(win, text="Quart de tour à droite", command=rotate_image)
+
+
+L0,L1,L2 = [tk.Label(win, text=txt) for txt in ("fichier image choisi: ", "Image initiale", "Image modifiée")]
+
+
+canvas_dim = ([400,400], [300,300])
+C0,C1 = [tk.Canvas(win, width=dim[0], height=dim[1], bg="blue") for dim in canvas_dim]
+
+
+#placeing widgets
+pos_btn = {"[20,10]":B_open, "[cx-30,cy-180]":B_rot}
+[btn.place(x=eval(pos)[0], y=eval(pos)[1]) for pos,btn in pos_btn.items()]
+
+pos_lab = {"[80,12]":L0, "[50,80]":L1, "[sw-150,80]":L2}
+[lab.place(x=eval(pos)[0], y=eval(pos)[1]) for pos,lab in pos_lab.items()]
+
+
+pos_canvas = {"[20,sh-420]":C0, "[sw-340,sh-370]":C1}
+[canvas.place(x=eval(pos)[0], y=eval(pos)[1]) for pos,canvas in pos_canvas.items()]
+
+
+
+win.mainloop()
