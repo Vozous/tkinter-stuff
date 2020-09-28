@@ -1,0 +1,39 @@
+import numpy as np
+import math as Math
+
+
+def is_magic(n,array=[[],[],[]]):#n is the length of a single list
+	array = np.array(array)
+	bool_ = []
+	count_ = []
+
+	c=0
+
+	while c <= 3:
+		if c is 3:
+			s = sum([array[i,i] for i in range(n)])
+			count_.append(s)
+			break
+
+		count_.append(sum(array[:,c]))
+		
+		if c != len(count_):
+			c+=1
+
+	med = Math.ceil(sum(count_) / len(count_))
+	for s in count_:
+		if s == med:
+			bool_.append(True)
+		else:
+			bool_.append(False)
+
+
+	print(count_)
+
+	r0 = "it is magic" if bool(sum(bool_)) else "it isn't magic"
+	result = "result is: {} and {}".format(bool_, r0)
+	print(result)
+	
+	return 
+
+is_magic(3, [[5,2,3],[4,4,2],[3,7,0]])
