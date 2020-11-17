@@ -1,0 +1,350 @@
+*{
+    margin:0;
+    padding:0;
+    border-spacing:0;
+    border-collapse:collapse;
+}
+
+body{
+    margin:0;
+    padding:0;
+
+}
+
+
+.container{
+    margin:0 auto;
+    padding:0 125px;
+}
+
+
+/*Main*/
+.main{
+	background-color:beige;
+}
+
+
+/*Main__header*/
+.main__header{
+    background-color: #000000b8;
+    height:250px;
+
+}
+
+
+.main__header__inner{
+    height:100%;
+    text-align:center;
+}
+
+.main__header__text{
+    display:block;
+    font-size:5vw;
+    color:white;
+
+    z-index:11;
+
+}
+
+
+
+
+/*Main__windows*/
+.main__windows{
+	padding:150px 0;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+     
+}
+
+
+
+
+
+
+/*Window*/
+.windows{
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+    border:solid 1px #000;
+    position:relative;
+    left:0;
+    width:400px;
+    height:400px;
+    transition:border .1s linear;
+     z-index:10;
+}
+
+.windows:hover{
+    border:solid 5px #7b7676;
+}
+
+
+.windows.disable{
+	border-color:#a6a6a6;
+}
+
+.windows.disable:hover{
+	
+}
+
+
+.windows.disable .tables__item{
+	opacity:0.5;
+}
+
+
+
+/*Tables*/
+.tables{
+    display:flex;
+   
+   
+    margin:auto;
+    padding:5px;
+    color:transparent;
+
+    
+}
+
+.tables__row{
+    min-height:20px;
+}
+
+
+.tables__item{
+    background-color:#777;
+    padding:0;
+    width:38px;
+    height:38px;
+    transition:background .1s linear, border .1s linear, opacity .2s linear;
+    
+}
+
+.tables__item:hover{
+    background-color:antiquewhite;
+
+}
+
+
+.tables__item.active{
+    background-color:red;
+    transform:rotateZ(90deg);
+}
+
+
+/*Asides*/
+.asides{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-direction:column;
+    margin:0 10px;
+     z-index:10;
+}
+
+
+.asides__inner{
+    display: flex;
+    justify-content:center;
+    flex-direction:column;
+    
+    border:solid 1px #000;
+    min-width:100px;
+    min-height:100px;
+}
+
+
+.asides__item{
+    text-align:center;
+    height:50px;
+    background:#777;
+}
+
+.asides__item:hover{
+    background:#bfbbbb;
+}
+
+
+
+/*Glitch*/
+.glitch__gli{
+    color: rgb(223, 191, 191);
+    animation:glitch 5s 5s infinite;
+
+}
+
+.glitch__gli::before{
+    content:attr(data-text);
+    position:absolute;
+    transform:translateX(-2px);
+    text-shadow:-5px 0  magenta;
+    overflow:hidden;
+    
+    animation: noise-1 3s linear infinite alternate-reverse, glitch 5s 5.05s infinite;
+
+}
+
+
+.glitch__gli::after{
+    content:attr(data-text);
+    position:absolute;
+
+    text-shadow:-5px 0  lightgreen;
+    overflow:hidden;
+    
+    animation: noise-1 3s linear infinite alternate-reverse, glitch 5s 5.05s infinite;
+
+}
+
+
+/*Buttons*/
+.buttons{
+
+	margin-top:50px;
+	
+	background-color:#777;
+	z-index:15;
+	overflow:hidden;
+
+}
+
+.buttons__text{
+	padding:25px;
+	text-transform:uppercase;
+	transition: .25s cubic-bezier(0.5,-1, 0.5, 2);
+	opacity:1;
+}
+
+
+.buttons__text:before{
+	content:attr(text-data);
+	opacity:0;
+	position:absolute;
+	transform:translateY(-20px);
+	transition: .25s cubic-bezier(0.5,-1, 0.5, 2);
+}
+
+.buttons__text:hover{
+	transform:translateY(20px);
+	opacity:0;
+}
+
+.buttons__text:hover::before{
+	transform:translateY(20px);
+	opacity:1;
+}
+
+
+
+
+
+
+/*Footers*/
+.footers{
+	width:100%;
+	background-color:#44443d; 
+	text-align:center;
+	padding:50px;
+
+}
+
+.footers__text{
+	position:absolute;
+	right:50px;
+	color:#000;
+	font-size:14px;
+	font-weight:70;
+
+
+}
+
+
+
+
+
+
+
+@media (max-width:1240px){
+    /*Main windows*/
+    .main__windows{
+        
+        flex-direction: column;
+        align-items: center;
+        flex-wrap:wrap;
+    }
+    
+    .main__windows:before{
+        height:75%;
+    }
+   
+
+    /*Main*/
+    .main__windows:before{
+        height:1180px;
+    }
+   
+
+    /*Windows*/
+    .windows{
+        margin-bottom:10px;
+    }
+    
+    /*Asides*/
+    .asides{
+        margin-bottom:50px;
+    }
+    
+    .asides__inner{
+        min-width:250px;
+    }
+    
+}
+
+
+@media (max-width:800px){
+    
+    .container{
+        padding:0 50px;
+    }
+
+
+}
+
+
+@media (max-width:500px){
+    .container{
+        padding:0;
+    }
+    
+    /*Main*/
+    .main__windows:before{
+        height:980px;
+    }
+
+
+
+    /*Windows*/
+    .windows{
+        width: 300px;
+        height: 300px;
+    }
+
+
+    /*Tables*/
+    .tables{
+        padding:0;
+    }
+
+    .tables__item{
+        width:30px;
+        height:30px;
+    }
+    
+}
+
+
+
+
