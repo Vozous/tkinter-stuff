@@ -1,93 +1,74 @@
+from random import randint
 
-
-def  dec2bin(n=int(0)):
-	result = []
-
-	while n > 0:
-		rest = n%2
-		n//=2
-
-		result.append(str(rest))
-
-	result.reverse()
-	return "".join(result)
+#exercice 1
+def rect_air (a,b):
+	print(f"{a*b:.2f}")
 
 
 
-def  bin2dec(n="0"):
-	c, result = len(n)-1,0
-	for i in range(len(n)):
-		result += int(n[i]) * 2**c
+#exercice 2 et 3
+def get_rand_list (n=1, manip=False):
+    rand_list = [randint(0,100) for _ in range(n+1)]
 
-		c-=1
+    if not manip:#sans manipul°
+        return rand_list
 
-	return result
+    else:#avec manipul°
+        for i in range(len(rand_list)):
+            if not bool(i % 2):#True if i is even
+                rand_list[i] *= 10
 
-
-
-def dec2hexa(n=int(0)):
-	result = []
-	m = {
-		"A":10,
-		"B":11,
-		"C":12,
-		"D":13,
-		"E":14,
-		"F":15
-	}
-
-	c = n 
-	while c > 0:
-		rest = c%16
-		c //= 16
-		
-		result.append(rest)
-
-	result.reverse()
-
-	for i in range(len(result)):
-
-		for k,v in m.items():
-			if result[i] == v:
-				result[i] = k
-
-
-	return result
+        return rand_list
 
 
 
-def hexa2dec(l=[]):
-	m = {
-		"A":10,
-		"B":11,
-		"C":12,
-		"D":13,
-		"E":14,
-		"F":15
-	}
-	result = 0
+#exercice 4
+def func (n):
+    list = [randint(1,100) for _ in range(n)]
+    odd_list = [i for i in list if i%2 == 1]
 
-	for i in range(len(l)):
-		if l[i] in list(m.keys()):
-			l[i] = m[l[i]] 
+    print("Multiple de 7 :", [i for i in list if i%7 == 0])#renvoie multiple de 7
 
-	p = len(l)-1
-	for i in l:
+    print("Multiple de 9 :", [i for i in list if (i%9 == 0 and i%2 == 0)])#renvoie multiple de 9 et paire
 
-		result += i*(16**p)
-		p-=1
-
-	return result
+    print("Le produit de max & min des éléments impaires:", max(odd_list) * min(odd_list))
 
 
-	
-def bin2hex(l=[])
-	result = ""
 
-	for i in l:
-		
+#exercice 4
+def func1 ():
+    pass
 
 
-#main
-x = bin2hex(["F","F","F"])
-print(x)
+
+#main-code----------------------------------------------------------------------
+
+
+print("exercice 1" + "\n")#test - exercice 1
+
+rect_air(2.5,2)
+
+print("\n" + "-"*20)#alinéa
+
+#-----------------------------------------------------------
+
+print("exercice 2 et 3" + "\n")#test - exercice 2 et 3
+
+rand_list = get_rand_list(20, manip=True)
+print([i for i in rand_list if not bool(i % 2)])#gets even numbers
+
+print("\n" + "-"*20)#alinéa
+
+#-----------------------------------------------------------
+
+print("exercice 4" + "\n") #test - exercice 4
+
+func(20)
+
+print("\n" + "-"*20)#alinéa
+
+#-----------------------------------------------------------
+
+
+
+
