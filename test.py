@@ -35,7 +35,7 @@ def func (n):
 
 
 
-#exercice 4
+#exercice 5
 def func1 ():
     pass
 
@@ -64,6 +64,14 @@ print("\n" + "-"*20)#alinéa
 print("exercice 4" + "\n") #test - exercice 4
 
 func(20)
+
+print("\n" + "-"*20)#alinéa
+
+#-----------------------------------------------------------
+
+print("exercice 4" + "\n") #test - exercice 5
+
+func1()
 
 print("\n" + "-"*20)#alinéa
 
