@@ -1,148 +1,114 @@
 from random import randint
 
-#exercice 1
-def rect_air (a,b):
-	print(f"{a*b:.2f}")
+#Variables constantes
+batinit = 21
 
 
 
-#exercice 2 et 3
-def get_rand_list (n=1, manip=False):
-    rand_list = [randint(0,100) for _ in range(n+1)]
-
-    if not manip:#sans manipul°
-        return rand_list
-
-    else:#avec manipul°
-        for i in range(len(rand_list)):
-            if not bool(i % 2):#True if i is even
-                rand_list[i] *= 10
-
-        return rand_list
 
 
+#Fonctions predefinies
+def play_bat ():
+    global batinit
 
-#exercice 4
-def func (n):
-    list = [randint(1,100) for _ in range(n)]
-    odd_list = [i for i in list if i%2 == 1]
-
-    print("Multiple de 7 :", [i for i in list if i%7 == 0])#renvoie multiple de 7
-
-    print("Multiple de 9 :", [i for i in list if (i%9 == 0 and i%2 == 0)])#renvoie multiple de 9 et paire
-
-    print("Le produit de max & min des éléments impaires:", max(odd_list) * min(odd_list))
+    startinp = input("Welcom Comrade ! Ready to get vibin ? (yes or no)").split(" ")
 
 
+    if startinp[0] == "yes":
 
-#exercice 5
-def in_list (l, n):
-    for i in l:
-        if n == i:
-            return True
+        pleft = False
+        while True:
+            if batinit <= 0:
+                print("Le joueur a perdu") if pleft else print("L'ordi a perdu")
 
+                fininp = input("Voulez vous rejouer ? oui ou non :")
+                if  fininp == "oui":
+                    batinit = 21
+                    continue
+                else:
+                    break
 
-def less_n (l, n):
-    return len([i for i in l if i < n])
+            print("Il reste {0} bâtonnets en jeu !".format(batinit))
 
+            #player
+            batretirep = int(input("Combien retirez-vous de bâtonnets : "))
 
-def rev_slice (l, n):
-    return l[-n:]
+            batinit -= batretirep
+            pleft = True
+            print(f"Le joueur a retiré {batretirep} bâtonnets !")
 
+            if batinit <= 0: continue
 
+            print("Il reste {0} bâtonnets en jeu !".format(batinit))
 
-def func_call(func1, func2, func3, l, n):
-    return (func1(l, n),
-        func2(l, n),
-        func3(l, n))
+            #ordi
+            batretireord = 1 if batinit <= 2 else randint(1,3)
+            pleft = False
+            batinit = batinit - batretireord
+            print(f"L'ordinateur a retiré {batretireord}")
+
+            if batinit <= 0: continue
 
 
 
-#exercice 6
-def concate_sort (l, l1):
-    return sorted([*l, *l1])
-
-
-def rem_dupl_from (l, l1):
-    return [i for i in l if i in l1]
-
-def conc_rem_dupl_invsort (l, l1):
-    conc_list = [*l, *l1]#fusion les deux list
-    list_ = [i for n,i in enumerate(conc_list) if i not in conc_list[:n]]# enlève les doublons
-    return sorted(list_, reverse=True)#trie par l'ordre inverse et renvoie la liste finale
 
 
 
-#exercice 7
-def grades_names ():
-    d = {}
-    l_noms = ["Armen", "Nil", "Léni", "Flavio"]
-
-    n = 0
-    while n < len(l_noms):
-        d[l_noms[n]] = [randint(0, 20) for _ in range(5)]
-
-        n += 1
-
-    return d
+    else:
+        print("Nope ur defenetly vibe-in")
+        play_bat()
 
 
-def get_med_dict (d):
-    result = {}
 
-    for k,v in d.items():
-        result[k] = sum(v) // len(v)
+def vect_dist(vect1, vect2):
 
-
-    return result
+    return ((vect1[0]-vect2[0])**2 + (vect1[1]-vect2[1])** 2 + (vect1[2]-vect2[2])**2)
 
 
-def get_best_med (d):
-    dk = list(d.keys())
-    dv = list(d.values())
+
+def submarine_pos_dist (nom="Alpha, Delta", pos=[[0,0,0], [0,0,0]]):
+    nompos = list(zip(nom.split(", "), pos))
+    currentpos = [0,0,0]
+    visited = [] 
+    dist = 0
+
+    while len(visited) < len(nom.split(", ")):
+        distfromcurrent = [vect_dist(currentpos, i[1]) for i in nompos if not (i[0] in visited)]
+
+ 
+
+        for i in nompos:
+            n,p = i[0], i[1]#le nom et le position
+
+            if not (n in visited):
+                if vect_dist(currentpos,p) == min(distfromcurrent):
+                    print(n)
+                    visited.append(n)
+                    dist += vect_dist(currentpos,p)
+                    currentpos = p
+
+                    break
+
+
+
+
+
+
+        print("---------",len(visited), len(nom.split(", ")))
+        
+
+    return f"La distence totale est de {dist} !"
+
+
+
+def epidemic_data_treat (data1=[[]], data2=[[]]):
+    dtnoms = sorted(set([i[0] for i in data1]))
+    bilan = list(zip([i[0] for i in data1], [i[2] for i in data1], [i[2] for i in data2], [i[3] for i in data1], [i[4] for i in data1]))
+
+    print(dtnoms)
+    print(bilan)
+
     
-    bests = []
-    best_med = max(dv)
-
-    for i in dk:
-        if d[i] == best_med:
-            bests.append(i)
-            
-
-    return " ".join(bests)
-
-
-
-def get_best (d):
-    dk = list(d.keys())
-    dv = list(d.values())
-    all_grades = []
-    for i in dv:
-        for j in i:
-            all_grades.append(j)
-
-    bests = []
-    bestgrade = max(all_grades)
-
-    for i in dv:
-        for j in i:
-            if j == bestgrade:
-
-                bests.append(dk[dv.index(i)])
-                break
-
-    return " ".join(bests)
-
-
-def get_med (d):
-    dv = list(d.values())
-
-    l = []
-    for i in dv:
-        for j in i:
-            l.append(j)
-
-    return sum(l) // len(l)
 
 
 
@@ -150,68 +116,18 @@ def get_med (d):
 
 
 
-#main-code----------------------------------------------------------------------
 
 
-print("exercice 1" + "\n")#test - exercice 1
 
-rect_air(2.5,2)
 
-print("\n" + "-"*20)#alinéa
+#main
 
-#-----------------------------------------------------------
+#play_bat()
 
-print("exercice 2 et 3" + "\n")#test - exercice 2 et 3
+pos = [[134,67,123], [128,-92,-50], [-45,137,5], [-196,140,-174], [10,2,302], [234,-313,-255]]
+nom = "Alpha, Beta, Gamma, Delta, Epsilion, Zeta"
+#print(submarine_pos_dist(nom=nom, pos=pos))
 
-rand_list = get_rand_list(20, manip=True)
-print([i for i in rand_list if not bool(i % 2)])#gets even numbers
-
-print("\n" + "-"*20)#alinéa
-
-#-----------------------------------------------------------
-
-print("exercice 4" + "\n") #test - exercice 4
-
-func(20)
-
-print("\n" + "-"*20)#alinéa
-
-#-----------------------------------------------------------
-
-print("exercice 5" + "\n") #test - exercice 5
-
-list_ = [5,6,1,1,3,5]
-print(in_list(list_, 3))#renvoie True si n est présent dans la list_e
-print(less_n(list_, 3))
-print(rev_slice(list_, 3))
-print(func_call(in_list, less_n, slice, l=list_, n=len(list_) // 2))
-
-print("\n" + "-"*20)#alinéa
-
-#-----------------------------------------------------------
-
-print("exercice 6" + "\n") #test - exercice 6
-
-list1, list2 = [5,4,7,3,8], [11,33,44,2,4,5,1,6]
-print(concate_sort(list1, list2))
-print(rem_dupl_from(list1, list2))
-print(conc_rem_dupl_invsort(list1, list2))
-
-print("\n" + "-"*20)#alinéa
-
-#-----------------------------------------------------------
-
-print("exercice 7" + "\n") #test - exercice 7
-
-my_dict = grades_names()
-my_med_dict = get_med_dict(my_dict)
-
-print(my_dict)
-print(my_med_dict)
-print(get_best_med(my_med_dict))
-print(get_best(my_dict))
-print(get_med(my_dict))
-
-print("\n" + "-"*20)#alinéa
-
-#-----------------------------------------------------------
+fievre_jaune = [['Bénin','BJ',2010,14530,376],['Mail','ML',2009,32645,946], ['Mali','ML',2010,29365,487], ['Liberia','LR',2009,13833,644], ['Liberia','LR',2010,8348,234], ['Liberia','LR',2011,1405,98], ['Perou','PE',2011,56934,1354]]
+population = [['Bjn',2010,9199254], ['Ml',2009,14581427], ['ML',2010,15049352], ['LR',2009,3754129], ['LR',2010,3891357], ['LR',2011,4017446], ['PE',2010,29027680], ['PE',2011,29264314]] 
+epidemic_data_treat(data1=fievre_jaune, data2=population)
