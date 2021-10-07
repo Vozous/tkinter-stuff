@@ -5,7 +5,7 @@ import datetime as dt
 import random as r
 import matplotlib.pyplot as plt
 
-plt.style.use('seaborn-whitegrid')
+
 
 #functions
 def tri_insertion(tab):
@@ -43,7 +43,7 @@ def get_func_exe_time(func, *arg):
     end_time = dt.datetime.now()
 
     time_diff = (end_time - start_time)
-    execution_time = time_diff.total_seconds() * 1000
+    execution_time = time_diff.total_seconds() * 10000
 
 
     return execution_time
@@ -52,7 +52,7 @@ def get_func_exe_time(func, *arg):
 
 
 #main-------------------------------------------------------------------
-tab_n = 100 #int(inport("Inserer la quantite de tableau : "))
+tab_n = 98 #int(inport("Inserer la quantite de tableau : "))
 #tabs = [[r.randint(0,1000) for _ in range(0, i+3)] for i in range(tab_n)]
 
 tabs = []
@@ -60,13 +60,25 @@ tabs = []
 for i in range(tab_n):
     tab = []
     for j in range(0, i+3):
-        tab.append(r.randint(0,1000))
+        tab.append([r.randint(0,1000) for _ in range(100)])
 
     tabs.append(tab)
 
-tmp = [r.randint(0,1000) for _ in range(500)]
-print(get_func_exe_time(tri_insertion, tmp))
-print(get_func_exe_time(tri_selection, tmp))
-print(get_func_exe_time(sorted, tmp))
 
 
+tab_exec_med_time = []
+for tab in tabs:
+    [tab_exec_med_time.append( round(sum([get_func_exe_time(func, t) for t in tab]) / 100, 5) ) for func in [tri_insertion,tri_selection,sorted]]
+
+
+tab_insert_exec_med_time = [tab_exec_med_time[i] for i in range(0, len(tab_exec_med_time) // 3, 3)]
+tab_select_exec_med_time = [tab_exec_med_time[i] for i in range(1, len(tab_exec_med_time) // 3, 3)]
+tab_sort_exec_med_time = [tab_exec_med_time[i] for i in range(2, len(tab_exec_med_time) // 3, 3)]
+
+fig,axes = plt.subplots()
+
+plt.plot(tab_insert_exec_med_time)
+plt.plot(tab_select_exec_med_time)
+plt.plot(tab_sort_exec_med_time)
+
+plt.show()
