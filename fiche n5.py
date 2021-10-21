@@ -1,3 +1,4 @@
+
 def points(mot):
 	scrabble = {1:"A,E,I,L,N,O,R,S,T,U",
 	2:"D,G,M",
@@ -26,15 +27,25 @@ def occurence(L):
 	return d
 
 
-def more_frecuent(d):
-	result = d[list(d.keys())] [list(d.values()).index(max(list(d.values())))]
+def more_frecuent(d,k):
+	dkeys,dvals = list(d.keys()), list(d.values())
+	klen_mots = [mot for mot in dkeys if len(mot) == k]
+	if bool(klen_mots):
+		mots_vals = [d[m] for m in klen_mots]
+
+		return klen_mots[mots_vals.index(max(mots_vals))]
+
+	return ""
+
+
 
 
 
 
 
 #main
-print(more_frecuent(occurence(["Ashot","Shot","Ashot"])))
+with open("QuatreVingtTreize.txt") as f:
+	text = f.read().split()
 
-
+print(more_frecuent(occurence(text),7))
 
